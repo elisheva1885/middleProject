@@ -16,18 +16,20 @@ const Posts = () => {
     const [posts2, setPosts2] = useState(posts)
 
     const searchTitle = useRef(null)
-
+    const sortData = (data) => {
+        data.sort((a, b) => {
+            if (a.title < b.title) return -1;  // a comes before b
+            if (a.title > b.title) return 1;   // a comes after b
+            return 0;                           // a and b are equal
+        })
+    }
 
     const getPosts = async () => {
         try {
             const res = await axios.get('http://localhost:8000/api/post')
-            // const sortedData = res.data.sort((a, b) => {
-            //     if (a.title < b.title) return -1;  // a comes before b
-            //     if (a.title > b.title) return 1;   // a comes after b
-            //     return 0;                           // a and b are equal
-            // });
             // const sortedData = res.data.sort((a, b) => a.title > b.title?a:b);
             if (res.status === 200) {
+                sortData(res.data);
                 setPosts(res.data)
             }
         }
@@ -75,7 +77,7 @@ const Posts = () => {
 
             <br />
 
-            {<Post posts={posts} setPosts={setPosts} />}
+            {<Post posts={posts} setPosts={setPosts} sortData={sortData} />}
 
 
 

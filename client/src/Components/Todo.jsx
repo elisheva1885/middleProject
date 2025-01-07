@@ -40,6 +40,7 @@ const Todo = (props) => {
   
         }
         const res = await axios.put(`http://localhost:8000/api/todo`,todo)
+        props.sortData(res.data)
         props.setTodos(res.data)
         console.log(props.todos);
     }
@@ -47,6 +48,7 @@ const Todo = (props) => {
         try{
             const res = await axios.delete(`http://localhost:8000/api/todo`, {data : { _id: _id}})
             if(res.status === 200){
+                props.sortData(res.data)
                 props.setTodos(res.data)
             }
         }
@@ -56,7 +58,7 @@ const Todo = (props) => {
     }   
     return( <>
     <br/>
-     <DialogAddTodo setTodos = {props.setTodos}/>
+     <DialogAddTodo setTodos = {props.setTodos} sortData = {props.sortData}/>
         <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
             {props.todos.map((t) => {
      
@@ -75,7 +77,7 @@ const Todo = (props) => {
                        <button style =  {{"backgroundColor": t.completed?green[300]:red[500],"border-width": "0"} } onClick={()=>{completeTodo(t)}} > <DoneOutlineIcon /> </button>
                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 
-                        <DialogTodo t = {t} setTodos = {props.setTodos}/>
+                        <DialogTodo t = {t} setTodos = {props.setTodos} sortData = {props.sortData}/>
                         <button onClick={()=>{deleteTodo(t._id)}} style={{"border-width": "0", "backgroundColor": "lightblue"} }><DeleteIcon /></button>
                         </Box>
 

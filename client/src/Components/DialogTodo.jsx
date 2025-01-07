@@ -30,6 +30,7 @@ const DialogTodo = (props) => {
         }
         const res = await axios.put(`http://localhost:8000/api/todo`, newTodo)
         if(res.status === 200){
+          props.sortData(res.data)
           setTodos(res.data)
       }
         return(

@@ -15,10 +15,18 @@ const Todos =()=> {
 
     const searchTitle  = useRef(null) 
 
+    const sortData = (data) => {
+        data.sort((a, b) => {
+            if (a.title < b.title) return -1;  // a comes before b
+            if (a.title > b.title) return 1;   // a comes after b
+            return 0;                           // a and b are equal
+        })
+    }
     const getTodos = async ()=>{
         try{
             const res = await axios.get('http://localhost:8000/api/todo')
             if(res.status === 200){
+                sortData(res.data)
                 setTodos(res.data)
                 console.log(todos)
             }
@@ -73,7 +81,7 @@ const Todos =()=> {
 
         <br/>
 
-        {<Todo todos={todos} setTodos = {setTodos}/>}
+        {<Todo todos={todos} setTodos = {setTodos} sortData={sortData}/>}
 
         </>
     )

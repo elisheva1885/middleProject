@@ -22,7 +22,7 @@ const DialogUser = (props) => {
         setOpen(false);
     };
     const updateUser = async (formJson, u, setUsers) => {
-        console.log(formJson);
+       
         const newUser = {
             _id: u._id,
             name: formJson.name || u.name,
@@ -34,6 +34,8 @@ const DialogUser = (props) => {
         try {
             const res = await axios.put(`http://localhost:8000/api/user`, newUser)
             if (res.status === 200) {
+    
+                props.sortData(res.data)
                 setUsers(res.data)
             }
         }

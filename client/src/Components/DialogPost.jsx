@@ -29,7 +29,9 @@ const DialogPost = (props) => {
         }
         try{
         const res = await axios.put(`http://localhost:8000/api/post`, newPost)
+        
         if(res.status === 200){
+          props.sortData(res.data)
           setPosts(res.data)
       }
     }

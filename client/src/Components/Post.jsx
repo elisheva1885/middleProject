@@ -33,6 +33,7 @@ const Post = (props) => {
         try {
             const res = await axios.delete(`http://localhost:8000/api/post`, { data: { _id: _id } })
             if (res.status === 200) {
+                props.sortData(res.data)
                 props.setPosts(res.data)
             }
         }
@@ -42,7 +43,7 @@ const Post = (props) => {
     }
     return (<>
         <br />
-        <DialogAddPost setPosts={props.setPosts} />
+        <DialogAddPost setPosts={props.setPosts} sortData={props.sortData}/>
         <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
             {props.posts.map((p) => {
 
@@ -63,7 +64,7 @@ const Post = (props) => {
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 
-                        <DialogPost p={p} setPosts={props.setPosts} />
+                        <DialogPost p={p} setPosts={props.setPosts} sortData={props.sortData}/>
                         <button style={{"border-width": "0", "backgroundColor": "lightblue"} } onClick={() => { deletePost(p._id) }}><DeleteIcon /></button>
                         </Box>
 

@@ -27,6 +27,7 @@ const User = (props) => {
         try {
             const res = await axios.delete(`http://localhost:8000/api/user`, { data: { _id: _id } })
             if (res.status === 200) {
+                props.sortData(res.data)
                 props.setUsers(res.data)
             }
         }
@@ -36,7 +37,7 @@ const User = (props) => {
     }
     return (<>
         <br />
-        <DialogAddUser setUsers={props.setUsers} />
+        <DialogAddUser setUsers={props.setUsers} sortData = {props.sortData}/>
         <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
             {props.users.map((u) => {
 
@@ -60,7 +61,7 @@ const User = (props) => {
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 
-                        <DialogUser u={u} setUsers={props.setUsers} />
+                        <DialogUser u={u} setUsers={props.setUsers} sortData = {props.sortData}/>
                         <button style={{ "border-width": "0", "backgroundColor": "lightblue" }} onClick={() => { deletePost(u._id) }}><DeleteIcon /></button>
                         </Box>
                     </ListItem>)

@@ -16,10 +16,18 @@ const Users = () => {
 
     const searchName = useRef(null)
 
+    const sortData = (data) => {
+        data.sort((a, b) => {
+            if (a.name < b.name) return -1;  // a comes before b
+            if (a.name > b.name) return 1;   // a comes after b
+            return 0;                           // a and b are equal
+        })
+    }
     const getUsers = async () => {
         try {
             const res = await axios.get('http://localhost:8000/api/user')
             if (res.status === 200) {
+                sortData(res.data)
                 setUsers(res.data)
                 console.log(res.data)
             }
@@ -66,7 +74,7 @@ const Users = () => {
             <br />
             <Input slotProps={{ input: { ref: searchName } }} placeholder="Serch by name...." variant="outlined" color="primary"   endDecorator={<button  onClick={getUserByName} style={{"border-width": "0"}} > <SearchIcon /> </button>} ></Input>
 
-            {<User users={users} setUsers={setUsers} />}
+            {<User users={users} setUsers={setUsers} sortData = {sortData}/>}
         </>
     )
 }

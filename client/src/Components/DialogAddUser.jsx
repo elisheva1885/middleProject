@@ -36,11 +36,12 @@ const DialogAddUser = (props) => {
                 address: formJson.address,
                 phone: formJson.phone
             }
+
         const res = await axios.post('http://localhost:8000/api/user', newUser)
         if(res.status === 200)
             {
+            props.sortData(res.data)
             setUsers(res.data)
-            console.log(res.data)
             }
     }
     catch(e){
